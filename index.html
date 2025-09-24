@@ -337,7 +337,7 @@
 
         confirmFinishBtn.addEventListener('click', () => {
             confirmationModal.classList.add('hidden');
-            showResult();
+            showResult(false);
         });
 
         cancelFinishBtn.addEventListener('click', () => {
@@ -446,7 +446,7 @@
                 updateTimerDisplay();
                 if (timeLeft <= 0) {
                     clearInterval(timer);
-                    showResult();
+                    showResult(true);
                 }
             }, 1000);
         }
@@ -457,7 +457,7 @@
             timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         }
         
-        function showResult() {
+        function showResult(isTimeUp = false) {
             clearInterval(timer);
 
             let calculatedScore = 0;
@@ -467,6 +467,13 @@
                 }
             });
             score = calculatedScore;
+            
+            const resultTitle = document.querySelector('#result-screen h2');
+            if (isTimeUp) {
+                resultTitle.textContent = "Waktu Habis!";
+            } else {
+                resultTitle.textContent = "Latihan Selesai!";
+            }
 
             quizScreen.classList.add('hidden');
             resultScreen.classList.remove('hidden');
@@ -532,5 +539,4 @@
     </script>
 </body>
 </html>
-
 
