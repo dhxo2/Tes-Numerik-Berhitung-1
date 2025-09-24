@@ -11,7 +11,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* A very light gray for a soft background */
+            background-color: #f3f4f6;
         }
         .quiz-container {
             max-width: 800px;
@@ -31,7 +31,7 @@
             border: none;
         }
         .btn-primary {
-            background-color: #8b5cf6; /* A nice shade of purple */
+            background-color: #8b5cf6;
             color: white;
         }
         .btn-primary:hover {
@@ -85,6 +85,24 @@
             border-radius: 0.75rem;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
+        }
+        /* Styling for fractions */
+        .frac {
+            display: inline-flex;
+            flex-direction: column;
+            text-align: center;
+            vertical-align: middle;
+            margin: 0 0.2em;
+            line-height: 1.2;
+        }
+        .frac > span:first-of-type {
+            display: block;
+            border-bottom: 1.5px solid currentColor;
+            padding: 0 0.2em;
+        }
+        .frac > span:last-of-type {
+            display: block;
+            padding: 0 0.2em;
         }
     </style>
 </head>
@@ -179,56 +197,57 @@
         const questions = [
             { question: "y = 2x² + x - 2. Jika nilai x = 3, maka y = ....", options: ["8", "19", "20", "27", "37"], answer: "B" },
             { question: "√49 × √64 = ....", options: ["12", "25", "36", "56", "69"], answer: "D" },
-            { question: "(7/5) × (25/7) = ....", options: ["5", "7", "165/35", "275/35", "65/7"], answer: "A" },
+            { question: '<span class="frac"><span>7</span><span>5</span></span> × <span class="frac"><span>25</span><span>7</span></span> = ....', options: ["5", "7", '<span class="frac"><span>165</span><span>35</span></span>', '<span class="frac"><span>275</span><span>35</span></span>', '<span class="frac"><span>65</span><span>7</span></span>'], answer: "A" },
             { question: "Jika a = 2 dan b = 1, maka (a² - b) + (2a + b²) = ....", options: ["6", "7", "8", "9", "10"], answer: "C" },
             { question: "22% dari 76 adalah ....", options: ["15,67", "16,72", "17,07", "17,84", "20,27"], answer: "B" },
             { question: "1.024 : 8³ = ....", options: ["1", "2", "3", "4", "5"], answer: "B" },
             { question: "2² × 2⁶ : 2³ = ....", options: ["8", "16", "24", "32", "72"], answer: "D" },
-            { question: "-6² + 2^x = -20. Nilai x yang tepat adalah ....", options: ["6", "4", "3", "2", "1"], answer: "B" },
+            { question: "-6² + 2ˣ = -20. Nilai x yang tepat adalah ....", options: ["6", "4", "3", "2", "1"], answer: "B" },
             { question: "Jika ln(2) = 0,693, maka ln(2³) = ....", options: ["0,333", "0,693", "1,276", "1,767", "2,079"], answer: "E" },
-            { question: "Jika sin(π/4) = (1/2)√2, tan(π/4) = 1, maka cos(π/4) = ....", options: ["1/4", "1/3", "1/2", "1/√2", "√2/2"], answer: "D" },
+            { question: 'Jika sin(<span class="frac"><span>π</span><span>4</span></span>) = <span class="frac"><span>1</span><span>2</span></span>√2, tan(<span class="frac"><span>π</span><span>4</span></span>) = 1, maka cos(<span class="frac"><span>π</span><span>4</span></span>) = ....', options: ['<span class="frac"><span>1</span><span>4</span></span>', '<span class="frac"><span>1</span><span>3</span></span>', '<span class="frac"><span>1</span><span>2</span></span>', '<span class="frac"><span>1</span><span>√2</span></span>', '<span class="frac"><span>√2</span><span>2</span></span>'], answer: "D" },
             { question: "16% dari 61 adalah ....", options: ["8,02", "9,76", "9,96", "11,24", "11,74"], answer: "B" },
-            { question: "(2 + √5) / (4 - √5) = ....", options: ["(13 + 6√5)/11", "(13 - 2√5)/(2 + √5)", "(3 - 6√5)/11", "(8 + 3√5)/11", "(6 - 6√5)/(11√5)"], answer: "A" },
+            { question: '<span class="frac"><span>2 + √5</span><span>4 - √5</span></span> = ....', options: ['<span class="frac"><span>13 + 6√5</span><span>11</span></span>', '<span class="frac"><span>13 - 2√5</span><span>2 + √5</span></span>', '<span class="frac"><span>3 - 6√5</span><span>11</span></span>', '<span class="frac"><span>8 + 3√5</span><span>11</span></span>', '<span class="frac"><span>6 - 6√5</span><span>11√5</span></span>'], answer: "A" },
             { question: "70 adalah 40% dari ....", options: ["155", "160", "164", "170", "175"], answer: "E" },
-            { question: "((1/5) + (3/5)) * (4/30) = ....", options: ["16/150", "8/75", "4/25", "2/15", "1/15"], answer: "B" }, // Recalculated (4/5)*(4/30) = 16/150 = 8/75. Closest might be 8/75. Assume original option was a typo. Let's add a correct option.
-            { question: "2^y = (1/2) × 4³. Nilai y yang tepat adalah ....", options: ["3", "4", "5", "6", "7"], answer: "C" },
+            { question: '(<span class="frac"><span>1</span><span>5</span></span> + <span class="frac"><span>3</span><span>5</span></span>) : (<span class="frac"><span>4</span><span>30</span></span>) = ....', options: ["7", "6", "5", "4", "3"], answer: "B" },
+            { question: '2ʸ = <span class="frac"><span>1</span><span>2</span></span> × 4³. Nilai y yang tepat adalah ....', options: ["3", "4", "5", "6", "7"], answer: "C" },
             { question: "(175 + 75)² = ....", options: ["22.500", "35.500", "49.000", "56.600", "62.500"], answer: "E" },
             { question: "(2² + 3²)² + √196 - A = 286. Nilai A yang tepat adalah ....", options: ["16", "17", "18", "19", "20"], answer: "B" },
             { question: "(2x - 3y)² = ....", options: ["4x² + 12xy + 9y²", "4x² - 12xy + 9y²", "4x² + 12xy - 9y²", "4y² + 12xy - 6x²", "4y² - 12xy + 6x²"], answer: "B" },
-            { question: "Jika x = 4y⁴ + 2y dan dx/dy = 16y³ + 2, maka d²x/dy² = ....", options: ["48y² + 2", "48y³ + 2x", "48y²", "48y", "48"], answer: "C" },
-            { question: "√2 × (4/√2) × (√3/3) × (√2/4) × (3/√3) = ....", options: ["1/3", "1/2", "√2", "√3", "√4"], answer: "C" },
-            { question: "y = 4x² + 2x³ - 16/x. Untuk x = 2, maka y = ....", options: ["2", "4", "8", "16", "24"], answer: "E" },
-            { question: "0,64 : (1/3) = ....", options: ["0,36", "1,92", "0,48", "0,64", "0,72"], answer: "B" }, // Recalculated 0.64 * 3 = 1.92
-            { question: "2(3b × 2a) + a²(2 + 3²) + 16b³/4b = ....", options: ["18a² + 12ab + 6b²", "18a² + 18ab + 4b²", "2(3a + 2b)²", "11a² + 12ab + 4b²", "2(3b + a)²"], answer: "D" }, // Recalculated: 12ab + 11a² + 4b²
-            { question: "Jika a = 0,4, b = 35%, dan c = 1/25, maka P = ab/c. Maka P = ....", options: ["3,5", "3,6", "3,7", "3,8", "3,9"], answer: "A" },
-            { question: "22,5 : 3/7 = ....", options: ["25,2", "52,5", "55,2", "65,5", "75,5"], answer: "B" },
-            { question: "Jika p = 3, q = 2, dan r = p² + q² + 2pq, maka pqr^(1/2) = ....", options: ["25", "30", "35", "45", "50"], answer: "B" },
-            { question: "0,81 : 2 1/4 = ....", options: ["0,24", "0,27", "0,36", "0,38", "0,46"], answer: "C" },
+            { question: 'Jika x = 4y⁴ + 2y dan <span class="frac"><span>dx</span><span>dy</span></span> = 16y³ + 2, maka <span class="frac"><span>d²x</span><span>dy²</span></span> = ....', options: ["48y² + 2", "48y³ + 2x", "48y²", "48y", "48"], answer: "C" },
+            { question: '√2 × <span class="frac"><span>4</span><span>√2</span></span> × <span class="frac"><span>√3</span><span>3</span></span> × <span class="frac"><span>√2</span><span>4</span></span> × <span class="frac"><span>3</span><span>√3</span></span> = ....', options: ["1/3", "1/2", "√2", "√3", "√4"], answer: "C" },
+            { question: 'y = 4x² + 2x³ - <span class="frac"><span>16</span><span>x</span></span>. Untuk x = 2, maka y = ....', options: ["2", "4", "8", "16", "24"], answer: "E" },
+            { question: '0,64 : <span class="frac"><span>1</span><span>3</span></span> = ....', options: ["0,36", "1,92", "0,48", "0,64", "0,72"], answer: "B" },
+            { question: '2(3b × 2a) + a²(2 + 3²) + <span class="frac"><span>16b³</span><span>4b</span></span> = ....', options: ["18a² + 12ab + 6b²", "18a² + 18ab + 4b²", "2(3a + 2b)²", "11a² + 12ab + 4b²", "2(3b + a)²"], answer: "D" },
+            { question: 'Jika a = 0,4, b = 35%, dan c = <span class="frac"><span>1</span><span>25</span></span>, maka P = <span class="frac"><span>ab</span><span>c</span></span>. Maka P = ....', options: ["3,5", "3,6", "3,7", "3,8", "3,9"], answer: "A" },
+            { question: '22,5 : <span class="frac"><span>3</span><span>7</span></span> = ....', options: ["25,2", "52,5", "55,2", "65,5", "75,5"], answer: "B" },
+            { question: "Jika p = 3, q = 2, dan r = p² + q² + 2pq, maka pqr<sup>1/2</sup> = ....", options: ["25", "30", "35", "45", "50"], answer: "B" },
+            { question: '0,81 : 2<span class="frac"><span>1</span><span>4</span></span> = ....', options: ["0,24", "0,27", "0,36", "0,38", "0,46"], answer: "C" },
             { question: "0,24² = ....", options: ["576", "0,576", "0,0576", "0,00576", "0,000576"], answer: "C" },
-            { question: "√2.56 - √1.44 = ....", options: ["1,01", "0,96", "0,40", "0,72", "0,60"], answer: "C" }, // Corrected user typo
-            { question: "1/18 = .... %", options: ["7,25", "5,56", "4,55", "5,45", "4,05"], answer: "B" },
-            { question: "(4 3/15) + (2 2/3) = ....", options: ["20 1/3", "6 14/15", "20 7/9", "22 2/3", "22 4/5"], answer: "B" }, // Recalculated 4 1/5 + 2 2/3 = 21/5 + 8/3 = (63+40)/15 = 103/15 = 6 13/15. Closest is B.
+            { question: "√2.56 - √1.44 = ....", options: ["1,01", "0,96", "0,40", "0,72", "0,60"], answer: "C" },
+            { question: '<span class="frac"><span>1</span><span>18</span></span> = .... %', options: ["7,25", "5,56", "4,55", "5,45", "4,05"], answer: "B" },
+            { question: '4<span class="frac"><span>3</span><span>15</span></span> + 2<span class="frac"><span>2</span><span>3</span></span> = ....', options: ["20 1/3", "6 13/15", "20 7/9", "22 2/3", "22 4/5"], answer: "B" },
             { question: "2% dari 1.024 adalah ....", options: ["20,09", "20,48", "22,49", "25,24", "25,90"], answer: "B" },
             { question: "254,9 : 24,7 = ....", options: ["16,46", "14,07", "12,23", "10,32", "7,37"], answer: "D" },
             { question: "2² + |-4|² + √25 = ....", options: ["-7", "-12", "7", "12", "25"], answer: "E" },
-            { question: "Jika a = √2 dan b = 2, maka nilai dari 3a² - 2b + 2a² + 4b = ....", options: ["11", "9", "8", "7", "14"], answer: "E" }, // Recalculated: 5a^2 + 2b = 5(2) + 2(2) = 14
+            { question: "Jika a = √2 dan b = 2, maka nilai dari 3a² - 2b + 2a² + 4b = ....", options: ["11", "9", "8", "7", "14"], answer: "E" },
             { question: "|(-4) × 3²| = ....", options: ["36", "32", "24", "18", "16"], answer: "A" },
-            { question: "Diketahui sebuah persamaan sebagai berikut: 5/7 = 2/x. Nilai x yang tepat adalah ....", options: ["1,4", "2,8", "3,2", "4,2", "4,8"], answer: "B" },
+            { question: '<span class="frac"><span>5</span><span>7</span></span> = <span class="frac"><span>2</span><span>x</span></span>. Nilai x yang tepat adalah ....', options: ["1,4", "2,8", "3,2", "4,2", "4,8"], answer: "B" },
             { question: "0,0008 - 0,000034 = ....", options: ["0,000766", "0,00075", "0,0076", "0,0077", "0,0078"], answer: "A" },
             { question: "20% dari Rp6.240.000,00 = ....", options: ["Rp694.000,00", "Rp844.000,00", "Rp1.048.000,00", "Rp1.248.000,00", "Rp1.428.000,00"], answer: "D" },
             { question: "7 jam 17 menit = .... detik", options: ["23.420", "24.260", "24.880", "26.220", "28.660"], answer: "D" },
             { question: "Jika (2x + y)² = 8xy - 3y² + 4, maka (x² + y²) = ....", options: ["0", "1", "2", "3", "4"], answer: "B" },
-            { question: "y = 2/3 x + 2. Untuk y = 8, maka x/y = ....", options: ["9/8", "3/4", "1/3", "1 1/8", "1 3/8"], answer: "A" }, // Recalculated x=9, x/y = 9/8
-            { question: "√(1/25 + 1/100) = ....", options: ["√5/10", "2/5 √12", "3/10 √5", "1/5 √125", "1/5 √10"], answer: "A" }, // Recalculated: sqrt(5/100) = sqrt(5)/10
+            { question: 'y = <span class="frac"><span>2</span><span>3</span></span>x + 2. Untuk y = 8, maka <span class="frac"><span>x</span><span>y</span></span> = ....', options: ['<span class="frac"><span>9</span><span>8</span></span>', '<span class="frac"><span>3</span><span>4</span></span>', '<span class="frac"><span>1</span><span>3</span></span>', '1 <span class="frac"><span>1</span><span>8</span></span>', '1 <span class="frac"><span>3</span><span>8</span></span>'], answer: "A" },
+            { question: '√(<span class="frac"><span>1</span><span>25</span></span> + <span class="frac"><span>1</span><span>100</span></span>) = ....', options: ['<span class="frac"><span>√5</span><span>10</span></span>', '<span class="frac"><span>2</span><span>5</span></span>√12', '<span class="frac"><span>3</span><span>10</span></span>√5', '<span class="frac"><span>1</span><span>5</span></span>√125', '<span class="frac"><span>1</span><span>5</span></span>√10'], answer: "A" },
             { question: "Jika 4a + 5 = 2a - 3, maka nilai |a| = ....", options: ["-4", "-2", "0", "2", "4"], answer: "E" },
-            { question: "√36 + 4/6 + 36% = ....", options: ["7,03", "9,98", "14,68", "18,52", "20,23"], answer: "A" }, // Recalculated 6 + 0.67 + 0.36 = 7.03
-            { question: "Jika a = 3 dan b = 4, maka (2a² + b) / (2ab) = ....", options: ["22/23", "11/12", "23/24", "13/12", "14/12"], answer: "B" }, // Recalculated (18+4)/24 = 22/24 = 11/12
+            { question: '√36 + <span class="frac"><span>4</span><span>6</span></span> + 36% = ....', options: ["7,03", "9,98", "14,68", "18,52", "20,23"], answer: "A" },
+            { question: 'Jika a = 3 dan b = 4, maka <span class="frac"><span>2a² + b</span><span>2ab</span></span> = ....', options: ['<span class="frac"><span>22</span><span>23</span></span>', '<span class="frac"><span>11</span><span>12</span></span>', '<span class="frac"><span>23</span><span>24</span></span>', '<span class="frac"><span>13</span><span>12</span></span>', '<span class="frac"><span>14</span><span>12</span></span>'], answer: "B" },
             { question: "(0,006)² × 10⁴ = ....", options: ["0,0036", "0,036", "0,36", "3,6", "36"], answer: "C" },
-            { question: "(a⁸ + 3a⁵ + 5a³) / a³ = ....", options: ["a⁵/³ + 3a + 5a", "a⁸/³ + 3a + 5a", "(a⁵ + 3a² + 5a) / a", "a⁵ + 3a² + 5", "9a¹³"], answer: "D" },
+            { question: '<span class="frac"><span>a⁸ + 3a⁵ + 5a³</span><span>a³</span></span> = ....', options: ["a⁵/³ + 3a + 5a", "a⁸/³ + 3a + 5a", '<span class="frac"><span>a⁵ + 3a² + 5a</span><span>a</span></span>', "a⁵ + 3a² + 5", "9a¹³"], answer: "D" },
             { question: "3p³ + 17 = 2p³ + 44. Nilai p yang benar adalah ....", options: ["27", "24", "18", "9", "3"], answer: "E" },
-            { question: "(2p² - q) / 4pq = 7/8. Jika p = 2, maka nilai q adalah ....", options: ["8/15", "2", "3", "7", "8"], answer: "A" }, // Recalculated: (8-q)/8q = 7/8 -> 64-8q = 56q -> 64=64q -> q=1
+            { question: '<span class="frac"><span>2p² – q</span><span>4pq</span></span> = <span class="frac"><span>7</span><span>8</span></span>. Jika p = 2, maka nilai q adalah ....', options: ["1", "2", "3", "7", "8"], answer: "A" },
         ];
 
+        // The rest of the JavaScript code remains the same...
         let currentQuestions = [];
         let currentQuestionIndex = 0;
         let score = 0;
@@ -475,7 +494,7 @@
                 questionHTML += `<div class="space-y-2">`;
                 question.options.forEach((option, optionIndex) => {
                     const optionLetter = optionLetters[optionIndex];
-                    let optionClass = 'option-btn rounded-lg';
+                    let optionClass = 'option-btn rounded-lg flex items-center';
 
                     if (optionLetter === correctAnswer) {
                         optionClass += ' correct'; // Jawaban yang benar
@@ -484,7 +503,7 @@
                         optionClass += ' incorrect'; // Jawaban user yang salah
                     }
                     
-                    questionHTML += `<div class="${optionClass}"><span class="font-bold mr-2">${optionLetter}.</span> ${option}</div>`;
+                    questionHTML += `<div class="${optionClass}"><span class="font-bold mr-2">${optionLetter}.</span> <div>${option}</div></div>`;
                 });
                 questionHTML += `</div>`;
 
@@ -513,4 +532,5 @@
     </script>
 </body>
 </html>
+
 
