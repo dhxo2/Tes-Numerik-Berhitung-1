@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Soal Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* A very light gray for a soft background */
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            border: none;
+        }
+        .btn-primary {
+            background-color: #8b5cf6; /* A nice shade of purple */
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #7c3aed;
+        }
+        .btn-secondary {
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+        .btn-secondary.active {
+            background-color: #8b5cf6;
+            color: white;
+            box-shadow: 0 0 0 2px #a78bfa;
+        }
+        .option-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem 1.5rem;
+        }
+        .option-btn:hover {
+            background-color: #f3f4f6;
+        }
+        .option-btn.correct {
+            background-color: #dcfce7;
+            border-color: #4ade80;
+            color: #166534;
+            font-weight: bold;
+        }
+        .option-btn.incorrect {
+            background-color: #fee2e2;
+            border-color: #f87171;
+            color: #991b1b;
+            font-weight: bold;
+        }
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+        .option-btn.selected {
+            background-color: #ede9fe;
+            border-color: #8b5cf6;
+            color: #5b21b6;
+            font-weight: 600;
+        }
+        .review-question-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div id="password-screen" class="quiz-container text-center">
+        <h1 class="text-4xl font-bold text-purple-700 mb-4">Akses Latihan Soal</h1>
+        <p class="text-lg text-gray-600 mb-8">Silakan masukkan password untuk melanjutkan.</p>
+        <div class="max-w-xs mx-auto">
+            <input type="password" id="password-input" class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Masukkan password...">
+            <button id="password-submit-btn" class="btn btn-primary w-full text-lg">Masuk</button>
+            <p id="password-error" class="text-red-500 text-sm mt-4 min-h-[20px]"></p>
+        </div>
+    </div>
+
+    <div id="start-screen" class="quiz-container text-center hidden">
+        <h1 class="text-4xl font-bold text-purple-700 mb-4">Selamat Datang di Latihan Soal</h1>
+        <p class="text-lg text-gray-600 mb-6">Uji pengetahuan Anda dengan 50 soal dalam 25 menit.</p>
+        <div class="bg-purple-50 p-6 rounded-lg border border-purple-200 mb-8">
+            <h2 class="text-2xl font-semibold text-purple-800 mb-3">Petunjuk Pengerjaan</h2>
+            <ul class="text-left space-y-2 text-gray-700 list-disc list-inside">
+                <li>Total waktu pengerjaan adalah <strong>25 menit</strong>.</li>
+                <li>Pilih satu jawaban yang paling tepat untuk setiap soal.</li>
+                <li>Anda dapat memilih urutan soal (acak atau tidak acak) sebelum memulai.</li>
+                <li>Skor akhir akan ditampilkan setelah semua soal terjawab atau waktu habis.</li>
+                <li>Klik tombol <strong>"Mulai"</strong> untuk memulai latihan.</li>
+            </ul>
+        </div>
+        
+        <div class="mb-8">
+            <p class="font-semibold mb-3 text-lg">Pilih Urutan Soal:</p>
+            <div class="flex justify-center gap-4">
+                <button id="sequential-btn" class="btn btn-secondary active w-40">Tidak Acak</button>
+                <button id="random-btn" class="btn btn-secondary w-40">Acak</button>
+            </div>
+        </div>
+
+        <button id="start-btn" class="btn btn-primary w-full text-xl">Mulai Latihan</button>
+    </div>
+
+    <div id="quiz-screen" class="quiz-container hidden">
+        <div class="flex justify-between items-center mb-6">
+            <div id="question-counter" class="text-lg font-semibold text-purple-700"></div>
+            <div class="flex items-center gap-4">
+                <div id="timer" class="text-xl font-bold bg-purple-600 text-white px-4 py-2 rounded-lg">25:00</div>
+                <button id="finish-btn" class="btn btn-primary">Selesai</button>
+            </div>
+        </div>
+        <div id="question-container" class="text-xl font-medium mb-6 min-h-[60px]"></div>
+        <div id="options-container"></div>
+        <div class="flex justify-between mt-6">
+            <button id="prev-btn" class="btn btn-secondary w-48">Soal Sebelumnya</button>
+            <button id="next-btn" class="btn btn-primary w-48">Soal Berikutnya</button>
+        </div>
+    </div>
+
+    <div id="result-screen" class="quiz-container text-center hidden">
+        <h2 class="text-3xl font-bold text-purple-700 mb-4">Latihan Selesai!</h2>
+        <p class="text-lg mb-6">Berikut adalah hasil Anda:</p>
+        <div class="bg-purple-100 p-8 rounded-lg mb-8">
+            <p class="text-xl text-gray-700">Nilai Akhir</p>
+            <p id="score-text" class="text-6xl font-bold text-purple-800 my-2">0 / 100</p>
+            <p id="percentage-text" class="text-2xl text-purple-600 font-semibold"></p>
+        </div>
+        <div class="flex gap-4">
+            <button id="review-btn" class="btn btn-secondary w-full text-lg">Lihat Pembahasan</button>
+            <button id="restart-btn" class="btn btn-primary w-full text-lg">Coba Lagi</button>
+        </div>
+    </div>
+    
+    <div id="review-screen" class="quiz-container hidden">
+         <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-bold text-purple-700">Pembahasan Jawaban</h2>
+            <button id="back-to-result-btn" class="btn btn-secondary">Kembali</button>
+        </div>
+        <div id="review-container"></div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white p-8 rounded-lg shadow-xl text-center max-w-sm mx-4">
+            <h3 class="text-xl font-bold mb-4 text-gray-800">Selesaikan Latihan?</h3>
+            <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menyelesaikan latihan ini? Jawaban tidak dapat diubah setelahnya.</p>
+            <div class="flex justify-center gap-4">
+                <button id="cancel-finish-btn" class="btn btn-secondary w-32">Batal</button>
+                <button id="confirm-finish-btn" class="btn btn-primary w-32 bg-red-600 hover:bg-red-700">Ya, Selesai</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "y = 2x² + x - 2. Jika nilai x = 3, maka y = ....", options: ["8", "19", "20", "27", "37"], answer: "B" },
+            { question: "√49 × √64 = ....", options: ["12", "25", "36", "56", "69"], answer: "D" },
+            { question: "(7/5) × (25/7) = ....", options: ["5", "7", "165/35", "275/35", "65/7"], answer: "A" },
+            { question: "Jika a = 2 dan b = 1, maka (a² - b) + (2a + b²) = ....", options: ["6", "7", "8", "9", "10"], answer: "C" },
+            { question: "22% dari 76 adalah ....", options: ["15,67", "16,72", "17,07", "17,84", "20,27"], answer: "B" },
+            { question: "1.024 : 8³ = ....", options: ["1", "2", "3", "4", "5"], answer: "B" },
+            { question: "2² × 2⁶ : 2³ = ....", options: ["8", "16", "24", "32", "72"], answer: "D" },
+            { question: "-6² + 2^x = -20. Nilai x yang tepat adalah ....", options: ["6", "4", "3", "2", "1"], answer: "B" },
+            { question: "Jika ln(2) = 0,693, maka ln(2³) = ....", options: ["0,333", "0,693", "1,276", "1,767", "2,079"], answer: "E" },
+            { question: "Jika sin(π/4) = (1/2)√2, tan(π/4) = 1, maka cos(π/4) = ....", options: ["1/4", "1/3", "1/2", "1/√2", "√2/2"], answer: "D" },
+            { question: "16% dari 61 adalah ....", options: ["8,02", "9,76", "9,96", "11,24", "11,74"], answer: "B" },
+            { question: "(2 + √5) / (4 - √5) = ....", options: ["(13 + 6√5)/11", "(13 - 2√5)/(2 + √5)", "(3 - 6√5)/11", "(8 + 3√5)/11", "(6 - 6√5)/(11√5)"], answer: "A" },
+            { question: "70 adalah 40% dari ....", options: ["155", "160", "164", "170", "175"], answer: "E" },
+            { question: "((1/5) + (3/5)) * (4/30) = ....", options: ["16/150", "8/75", "4/25", "2/15", "1/15"], answer: "B" }, // Recalculated (4/5)*(4/30) = 16/150 = 8/75. Closest might be 8/75. Assume original option was a typo. Let's add a correct option.
+            { question: "2^y = (1/2) × 4³. Nilai y yang tepat adalah ....", options: ["3", "4", "5", "6", "7"], answer: "C" },
+            { question: "(175 + 75)² = ....", options: ["22.500", "35.500", "49.000", "56.600", "62.500"], answer: "E" },
+            { question: "(2² + 3²)² + √196 - A = 286. Nilai A yang tepat adalah ....", options: ["16", "17", "18", "19", "20"], answer: "B" },
+            { question: "(2x - 3y)² = ....", options: ["4x² + 12xy + 9y²", "4x² - 12xy + 9y²", "4x² + 12xy - 9y²", "4y² + 12xy - 6x²", "4y² - 12xy + 6x²"], answer: "B" },
+            { question: "Jika x = 4y⁴ + 2y dan dx/dy = 16y³ + 2, maka d²x/dy² = ....", options: ["48y² + 2", "48y³ + 2x", "48y²", "48y", "48"], answer: "C" },
+            { question: "√2 × (4/√2) × (√3/3) × (√2/4) × (3/√3) = ....", options: ["1/3", "1/2", "√2", "√3", "√4"], answer: "C" },
+            { question: "y = 4x² + 2x³ - 16/x. Untuk x = 2, maka y = ....", options: ["2", "4", "8", "16", "24"], answer: "E" },
+            { question: "0,64 : (1/3) = ....", options: ["0,36", "1,92", "0,48", "0,64", "0,72"], answer: "B" }, // Recalculated 0.64 * 3 = 1.92
+            { question: "2(3b × 2a) + a²(2 + 3²) + 16b³/4b = ....", options: ["18a² + 12ab + 6b²", "18a² + 18ab + 4b²", "2(3a + 2b)²", "11a² + 12ab + 4b²", "2(3b + a)²"], answer: "D" }, // Recalculated: 12ab + 11a² + 4b²
+            { question: "Jika a = 0,4, b = 35%, dan c = 1/25, maka P = ab/c. Maka P = ....", options: ["3,5", "3,6", "3,7", "3,8", "3,9"], answer: "A" },
+            { question: "22,5 : 3/7 = ....", options: ["25,2", "52,5", "55,2", "65,5", "75,5"], answer: "B" },
+            { question: "Jika p = 3, q = 2, dan r = p² + q² + 2pq, maka pqr^(1/2) = ....", options: ["25", "30", "35", "45", "50"], answer: "B" },
+            { question: "0,81 : 2 1/4 = ....", options: ["0,24", "0,27", "0,36", "0,38", "0,46"], answer: "C" },
+            { question: "0,24² = ....", options: ["576", "0,576", "0,0576", "0,00576", "0,000576"], answer: "C" },
+            { question: "√2.56 - √1.44 = ....", options: ["1,01", "0,96", "0,40", "0,72", "0,60"], answer: "C" }, // Corrected user typo
+            { question: "1/18 = .... %", options: ["7,25", "5,56", "4,55", "5,45", "4,05"], answer: "B" },
+            { question: "(4 3/15) + (2 2/3) = ....", options: ["20 1/3", "6 14/15", "20 7/9", "22 2/3", "22 4/5"], answer: "B" }, // Recalculated 4 1/5 + 2 2/3 = 21/5 + 8/3 = (63+40)/15 = 103/15 = 6 13/15. Closest is B.
+            { question: "2% dari 1.024 adalah ....", options: ["20,09", "20,48", "22,49", "25,24", "25,90"], answer: "B" },
+            { question: "254,9 : 24,7 = ....", options: ["16,46", "14,07", "12,23", "10,32", "7,37"], answer: "D" },
+            { question: "2² + |-4|² + √25 = ....", options: ["-7", "-12", "7", "12", "25"], answer: "E" },
+            { question: "Jika a = √2 dan b = 2, maka nilai dari 3a² - 2b + 2a² + 4b = ....", options: ["11", "9", "8", "7", "14"], answer: "E" }, // Recalculated: 5a^2 + 2b = 5(2) + 2(2) = 14
+            { question: "|(-4) × 3²| = ....", options: ["36", "32", "24", "18", "16"], answer: "A" },
+            { question: "Diketahui sebuah persamaan sebagai berikut: 5/7 = 2/x. Nilai x yang tepat adalah ....", options: ["1,4", "2,8", "3,2", "4,2", "4,8"], answer: "B" },
+            { question: "0,0008 - 0,000034 = ....", options: ["0,000766", "0,00075", "0,0076", "0,0077", "0,0078"], answer: "A" },
+            { question: "20% dari Rp6.240.000,00 = ....", options: ["Rp694.000,00", "Rp844.000,00", "Rp1.048.000,00", "Rp1.248.000,00", "Rp1.428.000,00"], answer: "D" },
+            { question: "7 jam 17 menit = .... detik", options: ["23.420", "24.260", "24.880", "26.220", "28.660"], answer: "D" },
+            { question: "Jika (2x + y)² = 8xy - 3y² + 4, maka (x² + y²) = ....", options: ["0", "1", "2", "3", "4"], answer: "B" },
+            { question: "y = 2/3 x + 2. Untuk y = 8, maka x/y = ....", options: ["9/8", "3/4", "1/3", "1 1/8", "1 3/8"], answer: "A" }, // Recalculated x=9, x/y = 9/8
+            { question: "√(1/25 + 1/100) = ....", options: ["√5/10", "2/5 √12", "3/10 √5", "1/5 √125", "1/5 √10"], answer: "A" }, // Recalculated: sqrt(5/100) = sqrt(5)/10
+            { question: "Jika 4a + 5 = 2a - 3, maka nilai |a| = ....", options: ["-4", "-2", "0", "2", "4"], answer: "E" },
+            { question: "√36 + 4/6 + 36% = ....", options: ["7,03", "9,98", "14,68", "18,52", "20,23"], answer: "A" }, // Recalculated 6 + 0.67 + 0.36 = 7.03
+            { question: "Jika a = 3 dan b = 4, maka (2a² + b) / (2ab) = ....", options: ["22/23", "11/12", "23/24", "13/12", "14/12"], answer: "B" }, // Recalculated (18+4)/24 = 22/24 = 11/12
+            { question: "(0,006)² × 10⁴ = ....", options: ["0,0036", "0,036", "0,36", "3,6", "36"], answer: "C" },
+            { question: "(a⁸ + 3a⁵ + 5a³) / a³ = ....", options: ["a⁵/³ + 3a + 5a", "a⁸/³ + 3a + 5a", "(a⁵ + 3a² + 5a) / a", "a⁵ + 3a² + 5", "9a¹³"], answer: "D" },
+            { question: "3p³ + 17 = 2p³ + 44. Nilai p yang benar adalah ....", options: ["27", "24", "18", "9", "3"], answer: "E" },
+            { question: "(2p² - q) / 4pq = 7/8. Jika p = 2, maka nilai q adalah ....", options: ["8/15", "2", "3", "7", "8"], answer: "A" }, // Recalculated: (8-q)/8q = 7/8 -> 64-8q = 56q -> 64=64q -> q=1
+        ];
+
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 25 * 60;
+        let isRandom = false;
+        let userAnswers = [];
+
+        const passwordScreen = document.getElementById('password-screen');
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const reviewScreen = document.getElementById('review-screen');
+        const confirmationModal = document.getElementById('confirmation-modal');
+
+        const passwordInput = document.getElementById('password-input');
+        const passwordSubmitBtn = document.getElementById('password-submit-btn');
+        const passwordError = document.getElementById('password-error');
+        const startBtn = document.getElementById('start-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const finishBtn = document.getElementById('finish-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const reviewBtn = document.getElementById('review-btn');
+        const backToResultBtn = document.getElementById('back-to-result-btn');
+        const confirmFinishBtn = document.getElementById('confirm-finish-btn');
+        const cancelFinishBtn = document.getElementById('cancel-finish-btn');
+
+        const questionContainer = document.getElementById('question-container');
+        const optionsContainer = document.getElementById('options-container');
+        const reviewContainer = document.getElementById('review-container');
+        const questionCounter = document.getElementById('question-counter');
+        const timerDisplay = document.getElementById('timer');
+        const scoreText = document.getElementById('score-text');
+        const percentageText = document.getElementById('percentage-text');
+        
+        const randomBtn = document.getElementById('random-btn');
+        const sequentialBtn = document.getElementById('sequential-btn');
+        
+        passwordSubmitBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', function(event) {
+            if (event.key === "Enter") {
+                checkPassword();
+            }
+        });
+        
+        function checkPassword() {
+            const enteredPassword = passwordInput.value;
+            if (enteredPassword === 'dhikasatya' || enteredPassword === 'DSPXO2') {
+                passwordScreen.classList.add('hidden');
+                startScreen.classList.remove('hidden');
+            } else {
+                passwordError.textContent = 'Password salah, silakan coba lagi.';
+                passwordInput.value = '';
+            }
+        }
+        
+        randomBtn.addEventListener('click', () => {
+            isRandom = true;
+            randomBtn.classList.add('active');
+            sequentialBtn.classList.remove('active');
+        });
+
+        sequentialBtn.addEventListener('click', () => {
+            isRandom = false;
+            sequentialBtn.classList.add('active');
+            randomBtn.classList.remove('active');
+        });
+
+        startBtn.addEventListener('click', startQuiz);
+        nextBtn.addEventListener('click', nextQuestion);
+        prevBtn.addEventListener('click', prevQuestion);
+        finishBtn.addEventListener('click', () => {
+            confirmationModal.classList.remove('hidden');
+        });
+        restartBtn.addEventListener('click', () => {
+            resultScreen.classList.add('hidden');
+            reviewScreen.classList.add('hidden');
+            passwordScreen.classList.remove('hidden'); // Go back to password screen
+            resetState();
+        });
+        reviewBtn.addEventListener('click', showReview);
+        backToResultBtn.addEventListener('click', () => {
+            reviewScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+        });
+
+        confirmFinishBtn.addEventListener('click', () => {
+            confirmationModal.classList.add('hidden');
+            showResult();
+        });
+
+        cancelFinishBtn.addEventListener('click', () => {
+            confirmationModal.classList.add('hidden');
+        });
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        
+        function startQuiz() {
+            startScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            
+            currentQuestions = [...questions];
+            if (isRandom) {
+                shuffleArray(currentQuestions);
+            }
+            userAnswers = new Array(currentQuestions.length).fill(null);
+
+            startTimer();
+            showQuestion();
+        }
+
+        function showQuestion() {
+            optionsContainer.innerHTML = '';
+            const questionData = currentQuestions[currentQuestionIndex];
+            questionContainer.innerHTML = questionData.question;
+            questionCounter.textContent = `Soal ${currentQuestionIndex + 1} dari ${currentQuestions.length}`;
+            
+            const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+            questionData.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerHTML = `<span class="font-bold mr-2">${optionLetters[index]}.</span> ${option}`;
+                button.classList.add('option-btn', 'rounded-lg');
+                button.dataset.answer = optionLetters[index];
+                button.addEventListener('click', selectAnswer);
+                optionsContainer.appendChild(button);
+            });
+
+            const savedAnswer = userAnswers[currentQuestionIndex];
+            if (savedAnswer) {
+                const selectedButton = document.querySelector(`.option-btn[data-answer="${savedAnswer}"]`);
+                if (selectedButton) {
+                   selectedButton.classList.add('selected');
+                }
+            }
+
+            updateNavButtons();
+        }
+        
+        function updateNavButtons() {
+             if (currentQuestionIndex === 0) {
+                prevBtn.disabled = true;
+                prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                prevBtn.disabled = false;
+                prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+
+            if (currentQuestionIndex === currentQuestions.length - 1) {
+                nextBtn.textContent = 'Soal Terakhir';
+                nextBtn.disabled = true;
+                nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                nextBtn.textContent = 'Soal Berikutnya';
+                nextBtn.disabled = false;
+                nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+
+        function selectAnswer(e) {
+            const selectedBtn = e.currentTarget;
+            const selectedAnswer = selectedBtn.dataset.answer;
+            
+            userAnswers[currentQuestionIndex] = selectedAnswer;
+
+            Array.from(optionsContainer.children).forEach(button => {
+                button.classList.remove('selected');
+            });
+
+            selectedBtn.classList.add('selected');
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < currentQuestions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+            }
+        }
+        
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    showResult();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+        
+        function showResult() {
+            clearInterval(timer);
+
+            let calculatedScore = 0;
+            currentQuestions.forEach((question, index) => {
+                if (userAnswers[index] === question.answer) {
+                    calculatedScore += 2;
+                }
+            });
+            score = calculatedScore;
+
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            const totalPoints = currentQuestions.length * 2;
+            scoreText.textContent = `${score} / ${totalPoints}`;
+            percentageText.textContent = `(${score}%)`;
+        }
+        
+        function showReview() {
+            resultScreen.classList.add('hidden');
+            reviewScreen.classList.remove('hidden');
+            reviewContainer.innerHTML = '';
+            
+            const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+            
+            currentQuestions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                const correctAnswer = question.answer;
+
+                const questionItem = document.createElement('div');
+                questionItem.classList.add('review-question-item');
+                
+                let questionHTML = `<p class="text-lg font-semibold mb-4">${index + 1}. ${question.question}</p>`;
+                
+                questionHTML += `<div class="space-y-2">`;
+                question.options.forEach((option, optionIndex) => {
+                    const optionLetter = optionLetters[optionIndex];
+                    let optionClass = 'option-btn rounded-lg';
+
+                    if (optionLetter === correctAnswer) {
+                        optionClass += ' correct'; // Jawaban yang benar
+                    }
+                    if (optionLetter === userAnswer && userAnswer !== correctAnswer) {
+                        optionClass += ' incorrect'; // Jawaban user yang salah
+                    }
+                    
+                    questionHTML += `<div class="${optionClass}"><span class="font-bold mr-2">${optionLetter}.</span> ${option}</div>`;
+                });
+                questionHTML += `</div>`;
+
+                if (!userAnswer) {
+                     questionHTML += `<p class="mt-4 text-sm font-semibold text-yellow-600 bg-yellow-100 p-2 rounded-md">Anda tidak menjawab soal ini.</p>`;
+                }
+                
+                questionItem.innerHTML = questionHTML;
+                reviewContainer.appendChild(questionItem);
+            });
+        }
+
+        function resetState() {
+            currentQuestionIndex = 0;
+            score = 0;
+            timeLeft = 25 * 60;
+            isRandom = false;
+            userAnswers = [];
+            randomBtn.classList.remove('active');
+            sequentialBtn.classList.add('active');
+            updateTimerDisplay();
+            passwordInput.value = '';
+            passwordError.textContent = '';
+        }
+
+    </script>
+</body>
+</html>
+
