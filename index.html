@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Latihan Soal Interaktif</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -167,9 +168,10 @@
             <p id="score-text" class="text-6xl font-bold text-purple-800 my-2">0 / 100</p>
             <p id="percentage-text" class="text-2xl text-purple-600 font-semibold"></p>
         </div>
-        <div class="flex gap-4">
-            <button id="review-btn" class="btn btn-secondary w-full text-lg">Lihat Pembahasan</button>
-            <button id="restart-btn" class="btn btn-primary w-full text-lg">Coba Lagi</button>
+        <div class="grid md:grid-cols-3 gap-4">
+             <button id="review-btn" class="btn btn-secondary w-full text-lg">Lihat Pembahasan</button>
+             <button id="download-btn" class="btn btn-secondary w-full text-lg">Unduh Soal</button>
+             <button id="restart-btn" class="btn btn-primary w-full text-lg">Coba Lagi</button>
         </div>
     </div>
     
@@ -194,6 +196,7 @@
     </div>
 
     <script>
+        const { jsPDF } = window.jspdf;
         const questions = [
             // Soal 1-9 (tidak diubah)
             { question: "y = 2x² + x - 2. Jika nilai x = 3, maka y = ....", options: ["8", "19", "20", "27", "37"], answer: "B" },
@@ -293,6 +296,7 @@
         const finishBtn = document.getElementById('finish-btn');
         const restartBtn = document.getElementById('restart-btn');
         const reviewBtn = document.getElementById('review-btn');
+        const downloadBtn = document.getElementById('download-btn');
         const backToResultBtn = document.getElementById('back-to-result-btn');
         const confirmFinishBtn = document.getElementById('confirm-finish-btn');
         const cancelFinishBtn = document.getElementById('cancel-finish-btn');
@@ -347,15 +351,17 @@
         restartBtn.addEventListener('click', () => {
             resultScreen.classList.add('hidden');
             reviewScreen.classList.add('hidden');
-            passwordScreen.classList.remove('hidden'); // Go back to password screen
+            passwordScreen.classList.remove('hidden');
             resetState();
         });
         reviewBtn.addEventListener('click', showReview);
+        downloadBtn.addEventListener('click', downloadQuestionsPDF);
+        
         backToResultBtn.addEventListener('click', () => {
             reviewScreen.classList.add('hidden');
             resultScreen.classList.remove('hidden');
         });
-
+        
         confirmFinishBtn.addEventListener('click', () => {
             confirmationModal.classList.add('hidden');
             showResult(false);
@@ -545,6 +551,53 @@
                 reviewContainer.appendChild(questionItem);
             });
         }
+        
+        function formatTextForPDF(htmlString) {
+            let text = htmlString;
+            text = text.replace(/<span class="frac"><span>(.*?)<\/span><span>(.*?)<\/span><\/span>/g, '($1/$2)');
+            text = text.replace(/√<span style="text-decoration: overline;">(.*?)<\/span>/g, '√($1)');
+            text = text.replace(/<[^>]*>/g, '');
+            const tempEl = document.createElement('textarea');
+            tempEl.innerHTML = text;
+            return tempEl.value;
+        }
+
+        function downloadQuestionsPDF() {
+            const doc = new jsPDF();
+            const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+            let yPosition = 15;
+            const pageHeight = doc.internal.pageSize.height;
+            const margin = 15;
+
+            doc.setFontSize(16);
+            doc.text("Latihan Soal", margin, yPosition);
+            yPosition += 10;
+            doc.setFontSize(12);
+
+            currentQuestions.forEach((question, index) => {
+                if (yPosition > pageHeight - 40) { 
+                    doc.addPage();
+                    yPosition = margin;
+                }
+
+                const questionText = `${index + 1}. ${formatTextForPDF(question.question)}`;
+                const questionLines = doc.splitTextToSize(questionText, 180); 
+                doc.text(questionLines, margin, yPosition);
+                yPosition += (questionLines.length * 5);
+
+                question.options.forEach((option, optionIndex) => {
+                    const optionText = `${optionLetters[optionIndex]}. ${formatTextForPDF(option)}`;
+                    const optionLines = doc.splitTextToSize(optionText, 170);
+                    doc.text(optionLines, margin + 5, yPosition);
+                    yPosition += (optionLines.length * 5) + 2;
+                });
+                
+                yPosition += 5;
+            });
+
+            doc.save('latihan-soal.pdf');
+        }
+
 
        function resetState() {
             currentQuestionIndex = 0;
