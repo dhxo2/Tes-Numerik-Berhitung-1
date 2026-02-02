@@ -112,18 +112,8 @@
 </head>
 <body class="text-gray-800">
 
-    <div id="password-screen" class="quiz-container text-center">
-        <h1 class="text-4xl font-bold text-purple-700 mb-4">Akses Tes Numerik Berhitung 1</h1>
-        <p class="text-lg text-gray-600 mb-8">Silakan masukkan password untuk melanjutkan.</p>
-        <div class="max-w-xs mx-auto">
-            <input type="password" id="password-input" class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Masukkan password...">
-            <button id="password-submit-btn" class="btn btn-primary w-full text-lg">Masuk</button>
-            <p id="password-error" class="text-red-500 text-sm mt-4 min-h-[20px]"></p>
-        </div>
-    </div>
-
-    <div id="start-screen" class="quiz-container text-center hidden">
-        <h1 class="text-4xl font-bold text-purple-700 mb-4">Selamat Datang di Latihan Soal</h1>
+    <div id="start-screen" class="quiz-container text-center">
+        <h1 class="text-4xl font-bold text-purple-700 mb-4">Latihan Tes Numerik Berhitung 1</h1>
         <p class="text-lg text-gray-600 mb-6">Uji pengetahuan Anda dengan 50 soal.</p>
         <div class="bg-purple-50 p-6 rounded-lg border border-purple-200 mb-8">
             <h2 class="text-2xl font-semibold text-purple-800 mb-3">Petunjuk Pengerjaan</h2>
@@ -139,25 +129,25 @@
         <!-- Pilihan Mode Waktu -->
         <div class="mb-6">
             <p class="font-semibold mb-3 text-lg">Pilih Mode Waktu:</p>
-            <div class="flex justify-center gap-4">
-                <button id="countdown-btn" class="btn btn-secondary active w-48">Hitung Mundur (25 Menit)</button>
-                <button id="stopwatch-btn" class="btn btn-secondary w-48">Hitung Maju (Bebas)</button>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button id="countdown-btn" class="btn btn-secondary active w-full sm:w-64">Hitung Mundur (25 Menit)</button>
+                <button id="stopwatch-btn" class="btn btn-secondary w-full sm:w-64">Hitung Maju (Bebas)</button>
             </div>
         </div>
         
         <div class="mb-8">
             <p class="font-semibold mb-3 text-lg">Pilih Urutan Soal:</p>
-            <div class="flex justify-center gap-4">
-                <button id="sequential-btn" class="btn btn-secondary active w-40">Tidak Acak</button>
-                <button id="random-btn" class="btn btn-secondary w-40">Acak</button>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button id="sequential-btn" class="btn btn-secondary active w-full sm:w-40">Tidak Acak</button>
+                <button id="random-btn" class="btn btn-secondary w-full sm:w-40">Acak</button>
             </div>
         </div>
 
-        <button id="start-btn" class="btn btn-primary w-full text-xl">Mulai Latihan</button>
+        <button id="start-btn" class="btn btn-primary w-full text-xl py-4">Mulai Latihan</button>
     </div>
 
     <div id="quiz-screen" class="quiz-container hidden">
-        <div class="flex justify-between items-center mb-6">
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
             <div id="question-counter" class="text-lg font-semibold text-purple-700"></div>
             <div class="flex items-center gap-4">
                 <div id="timer" class="text-xl font-bold bg-purple-600 text-white px-4 py-2 rounded-lg">25:00</div>
@@ -166,9 +156,9 @@
         </div>
         <div id="question-container" class="text-xl font-medium mb-6 min-h-[60px]"></div>
         <div id="options-container"></div>
-        <div class="flex justify-between mt-6">
-            <button id="prev-btn" class="btn btn-secondary w-48">Soal Sebelumnya</button>
-            <button id="next-btn" class="btn btn-primary w-48">Soal Berikutnya</button>
+        <div class="flex justify-between mt-6 gap-4">
+            <button id="prev-btn" class="btn btn-secondary flex-1">Sebelumnya</button>
+            <button id="next-btn" class="btn btn-primary flex-1">Berikutnya</button>
         </div>
     </div>
 
@@ -179,16 +169,15 @@
             <p class="text-xl text-gray-700">Nilai Akhir</p>
             <p id="score-text" class="text-6xl font-bold text-purple-800 my-2">0 / 100</p>
             
-            <!-- Kolom Waktu Pengerjaan -->
             <div id="time-info" class="mt-4">
                 <p class="text-lg text-gray-700">Waktu Pengerjaan</p>
                 <p id="time-taken-text" class="text-3xl font-bold text-purple-800"></p>
             </div>
 
-            <p id="percentage-text" class="text-2xl text-purple-600 font-semibold"></p>
+            <p id="percentage-text" class="text-2xl text-purple-600 font-semibold mt-2"></p>
         </div>
-        <div class="grid md:grid-cols-3 gap-4">
-             <button id="review-btn" class="btn btn-secondary w-full text-lg">Lihat Pembahasan</button>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+             <button id="review-btn" class="btn btn-secondary w-full text-lg">Pembahasan</button>
              <button id="download-btn" class="btn btn-secondary w-full text-lg">Unduh Soal</button>
              <button id="restart-btn" class="btn btn-primary w-full text-lg">Coba Lagi</button>
         </div>
@@ -196,7 +185,7 @@
     
     <div id="review-screen" class="quiz-container hidden">
          <div class="flex justify-between items-center mb-6">
-              <h2 class="text-3xl font-bold text-purple-700">Pembahasan Jawaban</h2>
+              <h2 class="text-2xl sm:text-3xl font-bold text-purple-700">Pembahasan</h2>
               <button id="back-to-result-btn" class="btn btn-secondary">Kembali</button>
          </div>
          <div id="review-container"></div>
@@ -217,21 +206,16 @@
     <script>
         const { jsPDF } = window.jspdf;
         const questions = [
-            // Soal 1-9 (tidak diubah)
             { question: "y = 2x² + x - 2. Jika nilai x = 3, maka y = ....", options: ["8", "19", "20", "27", "37"], answer: "B" },
             { question: "√49 × √64 = ....", options: ["12", "25", "36", "56", "69"], answer: "D" },
             { question: '<span class="frac"><span>7</span><span>5</span></span> × <span class="frac"><span>25</span><span>7</span></span> = ....', options: ["5", "7", '<span class="frac"><span>165</span><span>35</span></span>', '<span class="frac"><span>275</span><span>35</span></span>', '<span class="frac"><span>65</span><span>7</span></span>'], answer: "A" },
-            { question: "Jika a = 2 dan b = 1, maka (a² - b) + (2a + b²) = ....", options: ["6", "7", "8", "9", "10"], answer: "C" },
+            { question: "Jika a = 2 and b = 1, maka (a² - b) + (2a + b²) = ....", options: ["6", "7", "8", "9", "10"], answer: "C" },
             { question: "22% dari 76 adalah ....", options: ["15,67", "16,72", "17,07", "17,84", "20,27"], answer: "B" },
             { question: "1.024 : 8³ = ....", options: ["1", "2", "3", "4", "5"], answer: "B" },
             { question: "2² × 2⁶ : 2³ = ....", options: ["8", "16", "24", "32", "72"], answer: "D" },
             { question: "-6² + 2ˣ = -20. Nilai x yang tepat adalah ....", options: ["6", "4", "3", "2", "1"], answer: "B" },
             { question: "Jika ln(2) = 0,693, maka ln(2³) = ....", options: ["0,333", "0,693", "1,276", "1,767", "2,079"], answer: "E" },
-            
-            // Soal 10 (jawaban diubah)
             { question: 'Jika sin(<span class="frac"><span>π</span><span>4</span></span>) = <span class="frac"><span>1</span><span>2</span></span>√2, tan(<span class="frac"><span>π</span><span>4</span></span>) = 1, maka cos(<span class="frac"><span>π</span><span>4</span></span>) = ....', options: ['<span class="frac"><span>1</span><span>4</span></span>', '<span class="frac"><span>1</span><span>3</span></span>', '<span class="frac"><span>1</span><span>2</span></span>', '<span class="frac"><span>1</span><span>√2</span></span>', '<span class="frac"><span>√2</span><span>2</span></span>'], answer: "E" },
-            
-            // Soal 11-21 (tidak diubah)
             { question: "16% dari 61 adalah ....", options: ["8,02", "9,76", "9,96", "11,24", "11,74"], answer: "B" },
             { question: '<span class="frac"><span>2 + √5</span><span>4 - √5</span></span> = ....', options: ['<span class="frac"><span>13 + 6√5</span><span>11</span></span>', '<span class="frac"><span>13 - 2√5</span><span>2 + √5</span></span>', '<span class="frac"><span>3 - 6√5</span><span>11</span></span>', '<span class="frac"><span>8 + 3√5</span><span>11</span></span>', '<span class="frac"><span>6 - 6√5</span><span>11√5</span></span>'], answer: "A" },
             { question: "70 adalah 40% dari ....", options: ["155", "160", "164", "170", "175"], answer: "E" },
@@ -243,28 +227,16 @@
             { question: 'Jika x = 4y⁴ + 2y dan <span class="frac"><span>dx</span><span>dy</span></span> = 16y³ + 2, maka <span class="frac"><span>d²x</span><span>dy²</span></span> = ....', options: ["48y² + 2", "48y³ + 2x", "48y²", "48y", "48"], answer: "C" },
             { question: '√2 × <span class="frac"><span>4</span><span>√2</span></span> × <span class="frac"><span>√3</span><span>3</span></span> × <span class="frac"><span>√2</span><span>4</span></span> × <span class="frac"><span>3</span><span>√3</span></span> = ....', options: ["1/3", "1/2", "√2", "√3", "√4"], answer: "C" },
             { question: 'y = 4x² + 2x³ - <span class="frac"><span>16</span><span>x</span></span>. Untuk x = 2, maka y = ....', options: ["2", "4", "8", "16", "24"], answer: "E" },
-            
-            // Soal 22 (soal dan jawaban diubah)
             { question: '0,64 : 1<span class="frac"><span>1</span><span>3</span></span> = ....', options: ["0,36", "1,92", "0,48", "0,64", "0,72"], answer: "C" },
-            
-            // Soal 23-28 (tidak diubah)
             { question: '2(3b × 2a) + a²(2 + 3²) + <span class="frac"><span>16b³</span><span>4b</span></span> = ....', options: ["18a² + 12ab + 6b²", "18a² + 18ab + 4b²", "2(3a + 2b)²", "11a² + 12ab + 4b²", "2(3b + a)²"], answer: "D" },
             { question: 'Jika a = 0,4, b = 35%, dan c = <span class="frac"><span>1</span><span>25</span></span>, maka P = <span class="frac"><span>ab</span><span>c</span></span>. Maka P = ....', options: ["3,5", "3,6", "3,7", "3,8", "3,9"], answer: "A" },
             { question: '22,5 : <span class="frac"><span>3</span><span>7</span></span> = ....', options: ["25,2", "52,5", "55,2", "65,5", "75,5"], answer: "B" },
             { question: "Jika p = 3, q = 2, dan r = p² + q² + 2pq, maka pqr<sup>1/2</sup> = ....", options: ["25", "30", "35", "45", "50"], answer: "B" },
             { question: '0,81 : 2<span class="frac"><span>1</span><span>4</span></span> = ....', options: ["0,24", "0,27", "0,36", "0,38", "0,46"], answer: "C" },
             { question: "0,24² = ....", options: ["576", "0,576", "0,0576", "0,00576", "0,000576"], answer: "C" },
-            
-            // Soal 29 (soal dan jawaban diubah sesuai gambar)
             { question: '√<span style="text-decoration: overline;">2 - 0,56</span> - √<span style="text-decoration: overline;">1 - 0,64</span> = ....', options: ["1,01", "0,96", "0,49", "0,72", "0,60"], answer: "E" },
-            
-            // Soal 30 (tidak diubah)
             { question: '<span class="frac"><span>1</span><span>18</span></span> = .... %', options: ["7,25", "5,56", "4,55", "5,45", "4,05"], answer: "B" },
-            
-            // Soal 31 (soal, opsi dan jawaban diubah)
             { question: '(4 : <span class="frac"><span>3</span><span>15</span></span>) + (<span class="frac"><span>2</span><span>3</span></span>)² = ....', options: ['20<span class="frac"><span>1</span><span>3</span></span>', '6<span class="frac"><span>13</span><span>15</span></span>', '20<span class="frac"><span>4</span><span>9</span></span>', '22<span class="frac"><span>2</span><span>3</span></span>', '22<span class="frac"><span>4</span><span>5</span></span>'], answer: "C" },
-            
-            // Soal 32-44 (tidak diubah)
             { question: "2% dari 1.024 adalah ....", options: ["20,09", "20,48", "22,49", "25,24", "25,90"], answer: "B" },
             { question: "254,9 : 24,7 = ....", options: ["16,46", "14,07", "12,23", "10,32", "7,37"], answer: "D" },
             { question: "2² + |-4|² + √25 = ....", options: ["-7", "-12", "7", "12", "25"], answer: "E" },
@@ -278,11 +250,7 @@
             { question: 'y = <span class="frac"><span>2</span><span>3</span></span>x + 2. Untuk y = 8, maka <span class="frac"><span>x</span><span>y</span></span> = ....', options: ['<span class="frac"><span>9</span><span>8</span></span>', '<span class="frac"><span>3</span><span>4</span></span>', '<span class="frac"><span>1</span><span>3</span></span>', '1<span class="frac"><span>1</span><span>8</span></span>', '1<span class="frac"><span>3</span><span>8</span></span>'], answer: "A" },
             { question: '√(<span class="frac"><span>1</span><span>25</span></span> + <span class="frac"><span>1</span><span>100</span></span>) = ....', options: ['<span class="frac"><span>√5</span><span>10</span></span>', '<span class="frac"><span>2</span><span>5</span></span>√12', '<span class="frac"><span>3</span><span>10</span></span>√5', '<span class="frac"><span>1</span><span>5</span></span>√125', '<span class="frac"><span>1</span><span>5</span></span>√10'], answer: "A" },
             { question: "Jika 4a + 5 = 2a - 3, maka nilai |a| = ....", options: ["-4", "-2", "0", "2", "4"], answer: "E" },
-            
-            // Soal 45 (sudah diubah sebelumnya)
             { question: '√36 + <span class="frac"><span>4</span><span>6</span></span> : 36% = ....', options: ["7,85", "9,98", "133,78", "18,52", "20,23"], answer: "A" },
-            
-            // Soal 46-50 (tidak diubah)
             { question: 'Jika a = 3 dan b = 4, maka <span class="frac"><span>2a² + b</span><span>2ab</span></span> = ....', options: ['<span class="frac"><span>22</span><span>23</span></span>', '<span class="frac"><span>11</span><span>12</span></span>', '<span class="frac"><span>23</span><span>24</span></span>', '<span class="frac"><span>13</span><span>12</span></span>', '<span class="frac"><span>14</span><span>12</span></span>'], answer: "B" },
             { question: "(0,006)² × 10⁴ = ....", options: ["0,0036", "0,036", "0,36", "3,6", "36"], answer: "C" },
             { question: '<span class="frac"><span>a⁸ + 3a⁵ + 5a³</span><span>a³</span></span> = ....', options: ["a⁵/³ + 3a + 5a", "a⁸/³ + 3a + 5a", '<span class="frac"><span>a⁵ + 3a² + 5a</span><span>a</span></span>', "a⁵ + 3a² + 5", "9a¹³"], answer: "D" },
@@ -297,19 +265,15 @@
         let timeLeft = 25 * 60;
         let isRandom = false;
         let userAnswers = [];
-        let timerMode = 'countdown'; // 'countdown' or 'stopwatch'
-        let timeElapsed = 0; // Untuk stopwatch
+        let timerMode = 'countdown'; 
+        let timeElapsed = 0; 
 
-        const passwordScreen = document.getElementById('password-screen');
         const startScreen = document.getElementById('start-screen');
         const quizScreen = document.getElementById('quiz-screen');
         const resultScreen = document.getElementById('result-screen');
         const reviewScreen = document.getElementById('review-screen');
         const confirmationModal = document.getElementById('confirmation-modal');
 
-        const passwordInput = document.getElementById('password-input');
-        const passwordSubmitBtn = document.getElementById('password-submit-btn');
-        const passwordError = document.getElementById('password-error');
         const startBtn = document.getElementById('start-btn');
         const nextBtn = document.getElementById('next-btn');
         const prevBtn = document.getElementById('prev-btn');
@@ -334,24 +298,6 @@
         const sequentialBtn = document.getElementById('sequential-btn');
         const countdownBtn = document.getElementById('countdown-btn');
         const stopwatchBtn = document.getElementById('stopwatch-btn');
-        
-        passwordSubmitBtn.addEventListener('click', checkPassword);
-        passwordInput.addEventListener('keypress', function(event) {
-            if (event.key === "Enter") {
-                checkPassword();
-            }
-        });
-        
-        function checkPassword() {
-            const enteredPassword = passwordInput.value;
-            if (enteredPassword === 'dhikasatya' || enteredPassword === 'DSPXO2') {
-                passwordScreen.classList.add('hidden');
-                startScreen.classList.remove('hidden');
-            } else {
-                passwordError.textContent = 'Password salah, silakan coba lagi.';
-                passwordInput.value = '';
-            }
-        }
         
         randomBtn.addEventListener('click', () => {
             isRandom = true;
@@ -386,7 +332,7 @@
         restartBtn.addEventListener('click', () => {
             resultScreen.classList.add('hidden');
             reviewScreen.classList.add('hidden');
-            startScreen.classList.remove('hidden'); // Go to start screen
+            startScreen.classList.remove('hidden');
             resetState();
         });
         reviewBtn.addEventListener('click', showReview);
@@ -464,13 +410,11 @@
              }
 
              if (currentQuestionIndex === currentQuestions.length - 1) {
-                 nextBtn.textContent = 'Soal Terakhir';
-                 nextBtn.disabled = true;
-                 nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                 nextBtn.textContent = 'Selesai Pilih';
+                 nextBtn.classList.add('bg-green-600', 'hover:bg-green-700');
              } else {
-                 nextBtn.textContent = 'Soal Berikutnya';
-                 nextBtn.disabled = false;
-                 nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                 nextBtn.textContent = 'Berikutnya';
+                 nextBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
              }
         }
 
@@ -498,6 +442,8 @@
             if (currentQuestionIndex < currentQuestions.length - 1) {
                 currentQuestionIndex++;
                 showQuestion();
+            } else {
+                confirmationModal.classList.remove('hidden');
             }
         }
 
@@ -519,7 +465,7 @@
                         showResult(true);
                     }
                 }, 1000);
-            } else { // Stopwatch mode
+            } else { 
                 timeElapsed = 0;
                 timerDisplay.textContent = formatTime(timeElapsed);
                 timerInterval = setInterval(() => {
@@ -535,7 +481,7 @@
             let calculatedScore = 0;
             currentQuestions.forEach((question, index) => {
                 if (userAnswers[index] === question.answer) {
-                    calculatedScore += 2; // Each question is worth 2 points
+                    calculatedScore += 2; 
                 }
             });
             score = calculatedScore;
@@ -547,7 +493,6 @@
                 resultTitle.textContent = "Latihan Selesai!";
             }
             
-            // Display time taken
             let finalTime;
             if (timerMode === 'countdown') {
                 const timeUsed = (25 * 60) - timeLeft;
@@ -588,10 +533,10 @@
                     let optionClass = 'option-btn rounded-lg flex items-center';
 
                     if (optionLetter === correctAnswer) {
-                        optionClass += ' correct'; // Correct answer
+                        optionClass += ' correct'; 
                     }
                     if (optionLetter === userAnswer && userAnswer !== correctAnswer) {
-                        optionClass += ' incorrect'; // User's wrong answer
+                        optionClass += ' incorrect'; 
                     }
                     
                     questionHTML += `<div class="${optionClass}"><span class="font-bold mr-2">${optionLetter}.</span> <div>${option}</div></div>`;
@@ -625,7 +570,7 @@
             const margin = 15;
 
             doc.setFontSize(16);
-            doc.text("Latihan Soal", margin, yPosition);
+            doc.text("Latihan Soal Numerik", margin, yPosition);
             yPosition += 10;
             doc.setFontSize(12);
 
@@ -650,7 +595,7 @@
                 yPosition += 5;
             });
 
-            doc.save('latihan-soal.pdf');
+            doc.save('latihan-soal-numerik.pdf');
         }
 
        function resetState() {
@@ -668,8 +613,6 @@
             countdownBtn.classList.add('active');
 
             timerDisplay.textContent = formatTime(timeLeft);
-            passwordInput.value = '';
-            passwordError.textContent = '';
             const resultTitle = document.querySelector('#result-screen h2');
             resultTitle.textContent = "Latihan Selesai!";
         }
@@ -677,4 +620,3 @@
     </script>
 </body>
 </html>
-
